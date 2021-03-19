@@ -1,5 +1,6 @@
 #include "./neuralDecisionsCpp/src/neural.h"
 #include <SFML/Graphics.hpp>
+#include <sys/time.h>
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -25,17 +26,15 @@ public:
         neural_network.summation();
         float up_or_down = neural_network.get_last()->nodes.at(0).input_node, left_or_right = neural_network.get_last()->nodes.at(1).input_node;
 
-        ((fmod(up_or_down, 1) - 0.5 > 0 &&
-          fmod(up_or_down, 1) - 0.5)
+        ((fmod(up_or_down, 0.5))
              ? pos_y++
              : pos_y--);
-        ((fmod(left_or_right, 1) - 0.5 > 0 &&
-          fmod(left_or_right, 1) - 0.5)
+        ((fmod(left_or_right, 0.5))
              ? pos_x++
              : pos_x--);
     }
 };
-class the_catcher : being
+class the_catcher : public being
 {
 public:
     float evaluate(float dam_pos_x, float dam_pos_y)
@@ -45,3 +44,32 @@ public:
         ((dam_pos_y > pos_y) ? (difference_between_members += dam_pos_y - pos_y) : (difference_between_members += pos_y - dam_pos_y));
     }
 };
+class dam : public being
+{
+public:
+    float time_surviving;
+    bool die;
+    time_t end;
+
+    void check_if_die(float catcher_pos_x, float catcher_pos_y)
+    {
+        die = (catcher_pos_x - 10 <= pos_x &&
+               catcher_pos_x + 10 >= pos_x &&
+               catcher_pos_y - 10 <= pos_y &&
+               catcher_pos_y + 10 >= pos_y);
+        time(&end);
+    }
+    float evaluate(time_t start)
+    {
+        return float(end - start) * 1e6;
+    }
+};
+void generate(std::vector<the_catcher> *catchers, std::vector<dam> *dams)
+{
+    while (catchers->size() < 10 || dams->size() < 10)
+    {
+
+        catchers->push_back(the_catcher);
+        dams->push_back(dam);
+    }
+}
