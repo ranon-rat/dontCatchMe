@@ -17,16 +17,23 @@ public:
     sf::RectangleShape being_visualize(sf::Vector2f(20.0, 20.0));
     being()
     {
+        //this add stuff to the neural network
         neural_network.generate_neural_network(2, sizes, 2);
+        // this only change the weight of the nodes from the neural network
+
         neural_network.randomize_weights();
     }
+    // this only move the being
     void move(std::vector<float> enemy_position)
     {
+        // input nodes from position of the enemy
         neural_network.input_nodes(enemy_position);
         neural_network.summation();
-        float up_or_down = neural_network.get_last()->nodes.at(0).input_node, left_or_right = neural_network.get_last()->nodes.at(1).input_node;
-
-        ((fmod(up_or_down, 0.5))
+        // this is for get the outputs for move
+        float up_or_down = neural_network.get_last()->nodes.at(0).input_node,
+              left_or_right = neural_network.get_last()->nodes.at(1).input_node;
+        // this is for move the being depending of the output
+        ((fmod(up_or_down, 0.5)) // reduce the output
              ? pos_y++
              : pos_y--);
         ((fmod(left_or_right, 0.5))
@@ -40,8 +47,14 @@ public:
     float evaluate(float dam_pos_x, float dam_pos_y)
     {
         float difference_between_members = 0;
-        ((dam_pos_x > pos_x) ? (difference_between_members += dam_pos_x - pos_x) : (difference_between_members += pos_x - dam_pos_x));
-        ((dam_pos_y > pos_y) ? (difference_between_members += dam_pos_y - pos_y) : (difference_between_members += pos_y - dam_pos_y));
+        // if the difference is more little the being is much better
+        ((dam_pos_x > pos_x)
+             ? (difference_between_members += dam_pos_x - pos_x)
+             : (difference_between_members += pos_x - dam_pos_x));
+        ((dam_pos_y > pos_y)
+             ? (difference_between_members += dam_pos_y - pos_y)
+             : (difference_between_members += pos_y - dam_pos_y));
+        return difference_between_members;
     }
 };
 class dam : public being
@@ -53,15 +66,24 @@ public:
 
     void check_if_die(float catcher_pos_x, float catcher_pos_y)
     {
-        die = (catcher_pos_x - 10 <= pos_x &&
+      
+
+        die = catcher_pos_x - 10 <= pos_x &&
                catcher_pos_x + 10 >= pos_x &&
                catcher_pos_y - 10 <= pos_y &&
-               catcher_pos_y + 10 >= pos_y);
+               catcher_pos_y + 10 >= pos_y;
+        /**
+         * _________
+         * |    |   |
+         * |----*---|
+         * |    |   |
+         * ----------
+         * */
         time(&end);
     }
     float evaluate(time_t start)
     {
-        return float(end - start) * 1e6;
+        return float(end - start) * 1f; // if the output is much bigger  the being is going to be much beter
     }
 };
 void generate(std::vector<the_catcher> *catchers, std::vector<dam> *dams)
