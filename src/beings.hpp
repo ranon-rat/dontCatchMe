@@ -30,7 +30,7 @@ public:
              ? pos_y++
              : pos_y--);
         ((fmod(left_or_right, 1) - 0.5 > 0 &&
-          fmod(left_or_right, 1) - 0.5 > 0)
+          fmod(left_or_right, 1) - 0.5)
              ? pos_x++
              : pos_x--);
     }
