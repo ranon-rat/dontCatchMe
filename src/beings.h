@@ -1,6 +1,7 @@
 #include "./neuralDecisionsCpp/src/neural.h"
-#include "SFML/Graphics.hpp"
-#include "vector"
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <vector>
 
 class being
 {
@@ -11,6 +12,7 @@ public:
     layer neural_network;
     std::vector<float> action = {0, 0};
     float pos_x = 0, pos_y = 0;
+    sf::RectangleShape player(sf::Vector2f(20f, 20f));
     being()
     {
         neural_network.generate_neural_network(2, sizes, 2);
