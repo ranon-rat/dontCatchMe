@@ -1,2 +1,4 @@
 src/neuralDecisionsCpp/
 dontCatchMe.xcodeproj/xcuserdata/
+/bin
+/build
