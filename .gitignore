@@ -1,4 +1,7 @@
-src/neuralDecisionsCpp/
+src/neural-network-with-cpp/
 dontCatchMe.xcodeproj/xcuserdata/
+*/.vscode/
+.vscode/
 /bin
+bin/*
 /build

@@ -3,10 +3,12 @@
 //  =================================== father class  ===================================
 being::being()
 {
+    sizes = {8, 8, 8, 8};
+    being_visualize.setSize(sf::Vector2f(20, 20));
     //this add stuff to the neural network
     neural_network.generate_neural_network(2, sizes, 2);
     // this only change the weight of the nodes from the neural network
-
+    
     neural_network.randomize_weights();
 }
 void being::move(std::vector<float> enemy_position, sf::RenderWindow *window)

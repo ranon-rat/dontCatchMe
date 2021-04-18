@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "beings.h"
+#include "./beings.h"
 using namespace std;
 
 int main()
